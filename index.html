@@ -1,1010 +1,722 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>共产主义 - 人类解放的光辉旗帜</title>
-    <script src="https://aisearch-task.bj.bcebos.com/static/tailwindcss-3.4.17.js"></script>
-    <script src="https://aisearch-task.bj.bcebos.com/static/gsap-3.12.7.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-red: #c8102e;
-            --deep-red: #8b0000;
-            --gold: #ffd700;
-            --dark-gold: #daa520;
-            --star-red: #de2910;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background: linear-gradient(135deg, #1a0a0a 0%, #2d0a0a 50%, #1a0505 100%);
-            color: #fff;
-            overflow-x: hidden;
-        }
-        
-        .serif {
-            font-family: 'Noto Serif SC', serif;
-        }
-        
-        /* 党徽样式 */
-        .party-emblem {
-            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
-            animation: emblemGlow 3s ease-in-out infinite alternate;
-        }
-        
-        @keyframes emblemGlow {
-            from { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5)); }
-            to { filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8)); }
-        }
-        
-        /* 粒子背景 */
-        .particles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        .particle {
-            position: absolute;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: float 15s infinite ease-in-out;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-        }
-        
-        /* 红旗飘动 */
-        .red-flag {
-            position: relative;
-            background: linear-gradient(180deg, #de2910 0%, #c8102e 50%, #a00d25 100%);
-            clip-path: polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%);
-            animation: flagWave 4s ease-in-out infinite;
-            transform-origin: left center;
-        }
-        
-        @keyframes flagWave {
-            0%, 100% { transform: skewY(0deg) scaleX(1); }
-            25% { transform: skewY(-1deg) scaleX(1.01); }
-            75% { transform: skewY(1deg) scaleX(0.99); }
-        }
-        
-        /* 名言卡片 */
-        .quote-card {
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.3) 0%, rgba(200, 16, 46, 0.2) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 16px;
-            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .quote-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-            transition: left 0.7s;
-        }
-        
-        .quote-card:hover::before {
-            left: 100%;
-        }
-        
-        .quote-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: rgba(255, 215, 0, 0.8);
-            box-shadow: 0 20px 60px rgba(200, 16, 46, 0.4), 0 0 30px rgba(255, 215, 0, 0.2);
-        }
-        
-        /* 时间线 */
-        .timeline-line {
-            background: linear-gradient(180deg, var(--gold) 0%, var(--primary-red) 50%, var(--deep-red) 100%);
-            width: 4px;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .timeline-dot {
-            width: 20px;
-            height: 20px;
-            background: var(--gold);
-            border-radius: 50%;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 20px var(--gold);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 20px var(--gold); transform: translateX(-50%) scale(1); }
-            50% { box-shadow: 0 0 40px var(--gold); transform: translateX(-50%) scale(1.2); }
-        }
-        
-        /* 按钮效果 */
-        .revolution-btn {
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--deep-red) 100%);
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            padding: 16px 40px;
-            font-size: 18px;
-            font-weight: 700;
-            border-radius: 50px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .revolution-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .revolution-btn:hover::before {
-            left: 100%;
-        }
-        
-        .revolution-btn:hover {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--dark-gold) 100%);
-            color: var(--deep-red);
-            transform: scale(1.05);
-            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4);
-        }
-        
-        /* 星星闪烁 */
-        .star {
-            position: absolute;
-            color: var(--gold);
-            animation: twinkle 3s infinite ease-in-out;
-        }
-        
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-        
-        /* 滚动显示 */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* 标语轮播 */
-        .slogan-slider {
-            overflow: hidden;
-        }
-        
-        .slogan-track {
-            display: flex;
-            animation: scroll 30s linear infinite;
-        }
-        
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        
-        /* 锤子镰刀光芒 */
-        .emblem-rays {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
-            animation: raysRotate 20s linear infinite;
-        }
-        
-        @keyframes raysRotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        
-        /* 书本翻页效果 */
-        .book-card {
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-        
-        .book-page {
-            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-            transform-origin: left center;
-        }
-        
-        .book-card:hover .book-page {
-            transform: rotateY(-30deg);
-        }
-        
-        /* 火焰效果 */
-        .flame {
-            position: absolute;
-            bottom: 0;
-            width: 60px;
-            height: 100px;
-            background: linear-gradient(to top, #ff4500, #ff8c00, #ffd700, transparent);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            filter: blur(8px);
-            animation: flicker 0.5s infinite alternate;
-        }
-        
-        @keyframes flicker {
-            0% { transform: scaleY(1) scaleX(1); opacity: 0.8; }
-            100% { transform: scaleY(1.1) scaleX(0.9); opacity: 1; }
-        }
-        
-        /* 导航点 */
-        .nav-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 215, 0, 0.3);
-            border: 2px solid var(--gold);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .nav-dot.active {
-            background: var(--gold);
-            transform: scale(1.3);
-            box-shadow: 0 0 20px var(--gold);
-        }
-        
-        .nav-dot:hover {
-            background: rgba(255, 215, 0, 0.7);
-        }
-        
-        /* 数字计数 */
-        .counter {
-            font-size: 4rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--gold) 0%, #ffed4a 50%, var(--gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* 交互式口号 */
-        .slogan-interactive {
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-        
-        .slogan-interactive::after {
-            content: '✊';
-            position: absolute;
-            right: -40px;
-            opacity: 0;
-            transform: scale(0);
-            transition: all 0.3s;
-        }
-        
-        .slogan-interactive:hover::after {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .slogan-interactive:active {
-            transform: scale(0.95);
-        }
-        
-        /* 红色丝带 */
-        .ribbon {
-            position: absolute;
-            width: 150%;
-            height: 60px;
-            background: linear-gradient(90deg, var(--deep-red), var(--primary-red), var(--deep-red));
-            transform: rotate(-3deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        /* 伟人语录装饰 */
-        .quote-mark {
-            font-size: 8rem;
-            line-height: 1;
-            color: rgba(255, 215, 0, 0.2);
-            font-family: Georgia, serif;
-            position: absolute;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>思想与人类解放</title>
+
+  <script src="https://aisearch-task.bj.bcebos.com/static/tailwindcss-3.4.17.js"></script>
+  <script src="https://aisearch-task.bj.bcebos.com/static/gsap-3.12.7.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --red: #c8102e;
+      --deep-red: #750016;
+      --gold: #ffd700;
+      --cream: #fff8dc;
+      --night: #140707;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+      color: #fff;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(200,16,46,.16), transparent 25rem),
+        radial-gradient(circle at 90% 70%, rgba(255,215,0,.08), transparent 22rem),
+        linear-gradient(135deg, #1a0a0a 0%, #2d0a0a 50%, #120404 100%);
+      font-family: "Noto Sans SC", sans-serif;
+    }
+
+    .serif {
+      font-family: "Noto Serif SC", serif;
+    }
+
+    #particles {
+      position: fixed;
+      z-index: 0;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,215,0,.55);
+      animation: float 16s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(105vh); opacity: 0; }
+      15%,85% { opacity: 1; }
+      100% { transform: translateY(-15vh) rotate(720deg); opacity: 0; }
+    }
+
+    .glass-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,215,0,.28);
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(139,0,0,.38), rgba(70,8,8,.28));
+      box-shadow: 0 18px 60px rgba(0,0,0,.18);
+      backdrop-filter: blur(12px);
+      transition: .45s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,215,0,.12), transparent);
+      transition: .75s;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255,215,0,.72);
+      box-shadow: 0 24px 70px rgba(200,16,46,.28);
+    }
+
+    .glass-card:hover::before {
+      left: 120%;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(45px);
+      transition: .8s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: none;
+    }
+
+    .hero-ring {
+      width: 190px;
+      height: 190px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 30px;
+      border: 2px solid rgba(255,215,0,.55);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(255,215,0,.16), transparent 58%);
+      box-shadow:
+        0 0 30px rgba(255,215,0,.16),
+        inset 0 0 30px rgba(200,16,46,.35);
+      animation: ringPulse 3s ease-in-out infinite;
+    }
+
+    .hero-ring span {
+      color: var(--gold);
+      font-family: "Noto Serif SC", serif;
+      font-size: 84px;
+      font-weight: 900;
+      line-height: 1;
+      text-shadow: 0 0 24px rgba(255,215,0,.45);
+    }
+
+    @keyframes ringPulse {
+      50% {
+        transform: scale(1.04);
+        box-shadow:
+          0 0 50px rgba(255,215,0,.28),
+          inset 0 0 38px rgba(200,16,46,.45);
+      }
+    }
+
+    .primary-btn {
+      position: relative;
+      overflow: hidden;
+      padding: 15px 34px;
+      border: 2px solid var(--gold);
+      border-radius: 999px;
+      color: var(--gold);
+      background: linear-gradient(135deg, var(--red), var(--deep-red));
+      cursor: pointer;
+      font-weight: 800;
+      letter-spacing: 2px;
+      transition: .3s;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      color: var(--deep-red);
+      background: var(--gold);
+      box-shadow: 0 12px 36px rgba(255,215,0,.25);
+    }
+
+    .primary-btn:active {
+      transform: scale(.96);
+    }
+
+    .timeline-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      transform: translateX(-50%);
+      background: linear-gradient(var(--gold), var(--red), var(--deep-red));
+    }
+
+    .timeline-dot {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      box-shadow: 0 0 24px var(--gold);
+    }
+
+    .quote-mark {
+      position: absolute;
+      top: 8px;
+      left: 18px;
+      color: rgba(255,215,0,.18);
+      font-family: Georgia, serif;
+      font-size: 7rem;
+      line-height: 1;
+    }
+
+    .stat-number {
+      background: linear-gradient(135deg, #fff176, #ffd700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee 30s linear infinite;
+    }
+
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    .chapter-nav a {
+      position: relative;
+    }
+
+    .chapter-nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 100%;
+      bottom: -6px;
+      height: 2px;
+      background: var(--gold);
+      transition: .3s;
+    }
+
+    .chapter-nav a:hover::after {
+      right: 0;
+    }
+
+    .detail-panel {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height .5s ease, opacity .4s;
+    }
+
+    .detail-panel.open {
+      max-height: 400px;
+      opacity: 1;
+    }
+
+    .star {
+      position: absolute;
+      color: var(--gold);
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      50% { opacity: .25; transform: scale(.72) rotate(45deg); }
+    }
+
+    @media (max-width: 768px) {
+      .timeline-line {
+        left: 9px;
+      }
+
+      .timeline-dot {
+        left: 9px;
+      }
+
+      .timeline-item {
+        padding-left: 38px;
+      }
+
+      .timeline-item > div {
+        width: 100% !important;
+      }
+
+      .hero-ring {
+        width: 150px;
+        height: 150px;
+      }
+
+      .hero-ring span {
+        font-size: 66px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <!-- 粒子背景 -->
-    <div class="particles-container" id="particles"></div>
-    
-    <!-- 固定导航 -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <!-- 党徽SVG -->
-                <svg class="w-10 h-10 party-emblem" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- 锤头 -->
-                    <path d="M25 35 L25 25 L35 25 L35 35 L45 35 L45 75 L35 75 L35 45 L25 45 Z" fill="#FFD700"/>
-                    <!-- 锤柄 -->
-                    <rect x="30" y="35" width="8" height="45" fill="#FFD700"/>
-                    <!-- 镰刀刀刃 -->
-                    <path d="M75 25 Q90 40 80 65 Q70 85 50 80 Q35 75 30 60 L40 55 Q45 70 60 68 Q75 65 72 45 Q70 30 60 30 Z" fill="#FFD700"/>
-                    <!-- 镰刀柄 -->
-                    <rect x="70" y="20" width="8" height="50" rx="2" fill="#FFD700" transform="rotate(-15 74 45)"/>
-                </svg>
-                <span class="text-xl font-bold text-gold serif tracking-wider" style="color: var(--gold);">共产主义</span>
-            </div>
-            <div class="hidden md:flex gap-8 text-sm">
-                <a href="#manifesto" class="hover:text-yellow-400 transition-colors">共产党宣言</a>
-                <a href="#capital" class="hover:text-yellow-400 transition-colors">资本论</a>
-                <a href="#history" class="hover:text-yellow-400 transition-colors">光辉历程</a>
-                <a href="#ideal" class="hover:text-yellow-400 transition-colors">崇高理想</a>
-            </div>
-        </div>
-    </nav>
+  <canvas id="particles" aria-hidden="true"></canvas>
 
-    <!-- Hero区域 -->
-    <section class="min-h-screen flex items-center justify-center relative pt-20 overflow-hidden">
-        <!-- 放射光芒 -->
-        <div class="emblem-rays"></div>
-        
-        <!-- 装饰星星 -->
-        <div class="star text-4xl" style="top: 20%; left: 10%; animation-delay: 0s;">★</div>
-        <div class="star text-2xl" style="top: 30%; right: 15%; animation-delay: 0.5s;">★</div>
-        <div class="star text-3xl" style="bottom: 30%; left: 20%; animation-delay: 1s;">★</div>
-        <div class="star text-xl" style="bottom: 20%; right: 25%; animation-delay: 1.5s;">★</div>
-        <div class="star text-2xl" style="top: 40%; left: 5%; animation-delay: 2s;">★</div>
-        
-        <div class="text-center z-10 px-6">
-            <!-- 大型党徽 -->
-            <div class="relative mx-auto mb-8 w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-                <svg class="w-full h-full party-emblem" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#FFD700"/>
-                            <stop offset="50%" style="stop-color:#FFED4A"/>
-                            <stop offset="100%" style="stop-color:#DAA520"/>
-                        </linearGradient>
-                    </defs>
-                    <!-- 锤头 -->
-                    <path d="M25 35 L25 25 L35 25 L35 35 L45 35 L45 75 L35 75 L35 45 L25 45 Z" fill="url(#goldGradient)"/>
-                    <!-- 锤柄 -->
-                    <rect x="30" y="35" width="8" height="45" fill="url(#goldGradient)"/>
-                    <!-- 镰刀刀刃 -->
-                    <path d="M75 25 Q90 40 80 65 Q70 85 50 80 Q35 75 30 60 L40 55 Q45 70 60 68 Q75 65 72 45 Q70 30 60 30 Z" fill="url(#goldGradient)"/>
-                    <!-- 镰刀柄 -->
-                    <rect x="70" y="20" width="8" height="50" rx="2" fill="url(#goldGradient)" transform="rotate(-15 74 45)"/>
-                </svg>
-            </div>
-            
-            <h1 class="serif text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight">
-                <span class="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-transparent">
-                    共产主义
-                </span>
-            </h1>
-            <p class="text-xl md:text-2xl text-yellow-100/80 mb-4 serif font-medium">人类解放的光辉旗帜</p>
-            <p class="text-lg md:text-xl text-red-200/70 mb-12 max-w-2xl mx-auto leading-relaxed">
-                代替那存在着阶级和阶级对立的资产阶级旧社会的，将是这样一个联合体，在那里，每个人的自由发展是一切人的自由发展的条件。
-            </p>
-            
-            <button class="revolution-btn" onclick="scrollToSection('manifesto')">
-                探寻真理之路
-            </button>
-        </div>
-        
-        <!-- 向下滚动提示 -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
-        </div>
-    </section>
+  <!-- 顶部导航 -->
+  <nav class="fixed top-0 left-0 right-0 z-50 border-b border-yellow-500/10 bg-black/65 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="#" class="serif text-xl font-black text-yellow-400">思想文献馆</a>
 
-    <!-- 标语滚动条 -->
-    <section class="py-4 bg-gradient-to-r from-red-900/50 via-red-800/50 to-red-900/50 border-y border-yellow-500/30 overflow-hidden">
-        <div class="slogan-slider">
-            <div class="slogan-track">
-                <span class="text-2xl serif font-bold mx-12 text-yellow-400 whitespace-nowrap">全世界无产者，联合起来！</span>
-                <span class="text-2xl serif font-bold mx-12 text-yellow-200 whitespace-nowrap">为共产主义事业奋斗终身</span>
-                <span class="text-2xl serif font-bold mx-12 text-yellow-400 whitespace-nowrap">英特纳雄耐尔就一定要实现</span>
-                <span class="text-2xl serif font-bold mx-12 text-yellow-200 whitespace-nowrap">人民，只有人民，才是创造世界历史的动力</span>
-                <span class="text-2xl serif font-bold mx-12 text-yellow-400 whitespace-nowrap">从来就没有什么救世主，也不靠神仙皇帝</span>
-                <span class="text-2xl serif font-bold mx-12 text-yellow-200 whitespace-nowrap">要创造人类的幸福，全靠我们自己</span>
-                <span class="text-2xl serif font-bold mx-12 text-yellow-400 whitespace-nowrap">全世界无产者，联合起来！</span>
-                <span class="text-2xl serif font-bold mx-12 text-yellow-200 whitespace-nowrap">为共产主义事业奋斗终身</span>
-                <span class="text-2xl serif font-bold mx-12 text-yellow-400 whitespace-nowrap">英特纳雄耐尔就一定要实现</span>
-                <span class="text-2xl serif font-bold mx-12 text-yellow-200 whitespace-nowrap">人民，只有人民，才是创造世界历史的动力</span>
-                <span class="text-2xl serif font-bold mx-12 text-yellow-400 whitespace-nowrap">从来就没有什么救世主，也不靠神仙皇帝</span>
-                <span class="text-2xl serif font-bold mx-12 text-yellow-200 whitespace-nowrap">要创造人类的幸福，全靠我们自己</span>
-            </div>
-        </div>
-    </section>
+      <div class="chapter-nav hidden md:flex gap-8 text-sm">
+        <a href="#manifesto">宣言</a>
+        <a href="#capital">资本论</a>
+        <a href="#timeline">历史</a>
+        <a href="#ideas">核心理念</a>
+      </div>
 
-    <!-- 共产党宣言部分 -->
-    <section id="manifesto" class="py-24 px-6 relative">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16 reveal">
-                <div class="inline-flex items-center gap-4 mb-6">
-                    <div class="h-px w-16 bg-gradient-to-r from-transparent to-yellow-500"></div>
-                    <span class="text-yellow-400 tracking-widest text-sm">1848年 · 伦敦</span>
-                    <div class="h-px w-16 bg-gradient-to-l from-transparent to-yellow-500"></div>
-                </div>
-                <h2 class="serif text-4xl md:text-6xl font-black mb-6">
-                    <span class="bg-gradient-to-r from-red-500 via-yellow-400 to-red-500 bg-clip-text text-transparent">
-                        共产党宣言
-                    </span>
-                </h2>
-                <p class="text-red-200/70 text-lg max-w-3xl mx-auto leading-relaxed">
-                    马克思和恩格斯为共产主义者同盟起草的纲领，是马克思主义诞生的重要标志。这部著作如同惊雷，震撼了整个资本主义世界，为无产阶级革命提供了强大的思想武器。
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- 名言卡片1 -->
-                <div class="quote-card p-8 reveal book-card">
-                    <span class="quote-mark top-0 left-4">"</span>
-                    <div class="book-page">
-                        <div class="flex items-start gap-4 mb-6">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center shrink-0">
-                                <span class="text-yellow-400 font-bold text-xl">1</span>
-                            </div>
-                            <div>
-                                <h3 class="serif text-xl font-bold text-yellow-400 mb-2">一个幽灵，共产主义的幽灵</h3>
-                                <p class="text-red-300/60 text-sm">开篇之语 · 震撼世界</p>
-                            </div>
-                        </div>
-                        <blockquote class="serif text-xl md:text-2xl leading-relaxed text-white/90 mb-4 pl-4 border-l-4 border-yellow-500">
-                            一个幽灵，共产主义的幽灵，在欧洲游荡。为了对这个幽灵进行神圣的围剿，旧欧洲的一切势力，教皇和沙皇、梅特涅和基佐、法国的激进派和德国的警察，都联合起来了。
-                        </blockquote>
-                        <p class="text-red-200/60 text-sm italic">—— 《共产党宣言》引言</p>
-                    </div>
-                </div>
-                
-                <!-- 名言卡片2 -->
-                <div class="quote-card p-8 reveal book-card" style="transition-delay: 0.1s;">
-                    <span class="quote-mark top-0 left-4">"</span>
-                    <div class="book-page">
-                        <div class="flex items-start gap-4 mb-6">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center shrink-0">
-                                <span class="text-yellow-400 font-bold text-xl">2</span>
-                            </div>
-                            <div>
-                                <h3 class="serif text-xl font-bold text-yellow-400 mb-2">阶级斗争的历史</h3>
-                                <p class="text-red-300/60 text-sm">历史唯物主义核心论断</p>
-                            </div>
-                        </div>
-                        <blockquote class="serif text-xl md:text-2xl leading-relaxed text-white/90 mb-4 pl-4 border-l-4 border-yellow-500">
-                            至今一切社会的历史都是阶级斗争的历史。自由民和奴隶、贵族和平民、领主和农奴、行会师傅和帮工，一句话，压迫者和被压迫者，始终处于相互对立的地位。
-                        </blockquote>
-                        <p class="text-red-200/60 text-sm italic">—— 《共产党宣言》第一章</p>
-                    </div>
-                </div>
-                
-                <!-- 名言卡片3 -->
-                <div class="quote-card p-8 reveal book-card" style="transition-delay: 0.2s;">
-                    <span class="quote-mark top-0 left-4">"</span>
-                    <div class="book-page">
-                        <div class="flex items-start gap-4 mb-6">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center shrink-0">
-                                <span class="text-yellow-400 font-bold text-xl">3</span>
-                            </div>
-                            <div>
-                                <h3 class="serif text-xl font-bold text-yellow-400 mb-2">资产阶级的历史作用</h3>
-                                <p class="text-red-300/60 text-sm">辩证的历史分析</p>
-                            </div>
-                        </div>
-                        <blockquote class="serif text-xl md:text-2xl leading-relaxed text-white/90 mb-4 pl-4 border-l-4 border-yellow-500">
-                            资产阶级在它的不到一百年的阶级统治中所创造的生产力，比过去一切世代创造的全部生产力还要多，还要大。
-                        </blockquote>
-                        <p class="text-red-200/60 text-sm italic">—— 《共产党宣言》第一章</p>
-                    </div>
-                </div>
-                
-                <!-- 名言卡片4 -->
-                <div class="quote-card p-8 reveal book-card" style="transition-delay: 0.3s;">
-                    <span class="quote-mark top-0 left-4">"</span>
-                    <div class="book-page">
-                        <div class="flex items-start gap-4 mb-6">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center shrink-0">
-                                <span class="text-yellow-400 font-bold text-xl">4</span>
-                            </div>
-                            <div>
-                                <h3 class="serif text-xl font-bold text-yellow-400 mb-2">自由人的联合体</h3>
-                                <p class="text-red-300/60 text-sm">共产主义的崇高理想</p>
-                            </div>
-                        </div>
-                        <blockquote class="serif text-xl md:text-2xl leading-relaxed text-white/90 mb-4 pl-4 border-l-4 border-yellow-500">
-                            代替那存在着阶级和阶级对立的资产阶级旧社会的，将是这样一个联合体，在那里，每个人的自由发展是一切人的自由发展的条件。
-                        </blockquote>
-                        <p class="text-red-200/60 text-sm italic">—— 《共产党宣言》第二章</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 最终号召 -->
-            <div class="mt-16 text-center reveal">
-                <div class="quote-card p-12 max-w-4xl mx-auto relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-yellow-500 to-transparent"></div>
-                    <h3 class="serif text-3xl md:text-5xl font-black mb-6 slogan-interactive inline-block" onclick="playInternationale()">
-                        <span class="bg-gradient-to-r from-yellow-400 via-red-500 to-yellow-400 bg-clip-text text-transparent animate-pulse">
-                            全世界无产者，联合起来！
-                        </span>
-                    </h3>
-                    <p class="text-red-200/70 text-lg">点击上方口号 ✊</p>
-                </div>
-            </div>
-        </div>
-    </section>
+      <button id="menuBtn" class="md:hidden text-2xl" aria-label="打开目录">☰</button>
+    </div>
 
-    <!-- 资本论部分 -->
-    <section id="capital" class="py-24 px-6 relative bg-gradient-to-b from-transparent via-red-950/30 to-transparent">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16 reveal">
-                <div class="inline-flex items-center gap-4 mb-6">
-                    <div class="h-px w-16 bg-gradient-to-r from-transparent to-yellow-500"></div>
-                    <span class="text-yellow-400 tracking-widest text-sm">1867年 · 汉堡</span>
-                    <div class="h-px w-16 bg-gradient-to-l from-transparent to-yellow-500"></div>
-                </div>
-                <h2 class="serif text-4xl md:text-6xl font-black mb-6">
-                    <span class="bg-gradient-to-r from-yellow-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent">
-                        资 本 论
-                    </span>
-                </h2>
-                <p class="text-red-200/70 text-lg max-w-3xl mx-auto leading-relaxed">
-                    马克思毕生研究的成果，政治经济学的不朽巨著。这部著作深刻揭示了资本主义生产方式的运动规律，阐明了剩余价值学说，为科学社会主义奠定了坚实的理论基础。
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-6 mb-12">
-                <!-- 资本论名言1 -->
-                <div class="quote-card p-6 reveal">
-                    <div class="text-6xl mb-4">📖</div>
-                    <h3 class="serif text-lg font-bold text-yellow-400 mb-4">资本的本性</h3>
-                    <blockquote class="serif text-base leading-relaxed text-white/80 mb-4 italic">
-                        "资本来到世间，从头到脚，每个毛孔都滴着血和肮脏的东西。"
-                    </blockquote>
-                    <p class="text-red-300/50 text-sm">—— 《资本论》第一卷</p>
-                </div>
-                
-                <!-- 资本论名言2 -->
-                <div class="quote-card p-6 reveal" style="transition-delay: 0.1s;">
-                    <div class="text-6xl mb-4">⚖️</div>
-                    <h3 class="serif text-lg font-bold text-yellow-400 mb-4">利润与冒险</h3>
-                    <blockquote class="serif text-base leading-relaxed text-white/80 mb-4 italic">
-                        "如果有10%的利润，资本就会保证到处被使用；有20%的利润，资本就能活跃起来；有50%的利润，资本就会铤而走险；为了100%的利润，资本就敢践踏一切人间法律；有300%以上的利润，资本就敢犯任何罪行，甚至去冒绞首的危险。"
-                    </blockquote>
-                    <p class="text-red-300/50 text-sm">—— 《资本论》第一卷</p>
-                </div>
-                
-                <!-- 资本论名言3 -->
-                <div class="quote-card p-6 reveal" style="transition-delay: 0.2s;">
-                    <div class="text-6xl mb-4">🔬</div>
-                    <h3 class="serif text-lg font-bold text-yellow-400 mb-4">唯物辩证法</h3>
-                    <blockquote class="serif text-base leading-relaxed text-white/80 mb-4 italic">
-                        "辩证法不崇拜任何东西，按其本质来说，它是批判的和革命的。"
-                    </blockquote>
-                    <p class="text-red-300/50 text-sm">—— 《资本论》第一卷第二版跋</p>
-                </div>
-            </div>
-            
-            <!-- 剩余价值理论图解 -->
-            <div class="quote-card p-8 reveal">
-                <h3 class="serif text-2xl font-bold text-yellow-400 mb-8 text-center">剩余价值学说 · 核心原理</h3>
-                <div class="grid md:grid-cols-4 gap-4">
-                    <div class="text-center p-4 rounded-lg bg-black/30 border border-yellow-500/20 hover:border-yellow-500/60 transition-all cursor-pointer group">
-                        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">👷</div>
-                        <h4 class="font-bold text-yellow-400 mb-2">劳动力</h4>
-                        <p class="text-sm text-white/60">工人出卖劳动力商品，其价值由再生产劳动力所需生活资料决定</p>
-                    </div>
-                    <div class="text-center p-4 rounded-lg bg-black/30 border border-yellow-500/20 hover:border-yellow-500/60 transition-all cursor-pointer group">
-                        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">🏭</div>
-                        <h4 class="font-bold text-yellow-400 mb-2">劳动过程</h4>
-                        <p class="text-sm text-white/60">工人的劳动创造新价值，超过劳动力价值的部分即为剩余价值</p>
-                    </div>
-                    <div class="text-center p-4 rounded-lg bg-black/30 border border-yellow-500/20 hover:border-yellow-500/60 transition-all cursor-pointer group">
-                        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">⏰</div>
-                        <h4 class="font-bold text-yellow-400 mb-2">剥削秘密</h4>
-                        <p class="text-sm text-white/60">工作日分为必要劳动时间和剩余劳动时间，后者被资本家无偿占有</p>
-                    </div>
-                    <div class="text-center p-4 rounded-lg bg-black/30 border border-yellow-500/20 hover:border-yellow-500/60 transition-all cursor-pointer group">
-                        <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">📈</div>
-                        <h4 class="font-bold text-yellow-400 mb-2">资本积累</h4>
-                        <p class="text-sm text-white/60">剩余价值转化为资本，资本主义积累必然导致两极分化和经济危机</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div id="mobileMenu" class="hidden md:hidden px-5 pb-4 text-center">
+      <a class="block py-2" href="#manifesto">宣言</a>
+      <a class="block py-2" href="#capital">资本论</a>
+      <a class="block py-2" href="#timeline">历史</a>
+      <a class="block py-2" href="#ideas">核心理念</a>
+    </div>
+  </nav>
 
-    <!-- 光辉历程时间线 -->
-    <section id="history" class="py-24 px-6 relative">
-        <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-16 reveal">
-                <h2 class="serif text-4xl md:text-6xl font-black mb-6">
-                    <span class="bg-gradient-to-r from-red-500 via-yellow-400 to-red-500 bg-clip-text text-transparent">
-                        光辉历程
-                    </span>
-                </h2>
-                <p class="text-red-200/70 text-lg">国际共产主义运动的伟大足迹</p>
-            </div>
-            
-            <div class="relative">
-                <div class="timeline-line h-full"></div>
-                
-                <!-- 时间点1 -->
-                <div class="relative flex items-center mb-16 reveal">
-                    <div class="timeline-dot" style="top: 20px;"></div>
-                    <div class="w-1/2 pr-8 text-right">
-                        <div class="quote-card p-6 inline-block text-left">
-                            <span class="text-yellow-400 font-bold text-2xl serif">1848</span>
-                            <h3 class="serif text-xl font-bold text-white mt-2 mb-2">《共产党宣言》发表</h3>
-                            <p class="text-white/70 text-sm">马克思主义诞生，社会主义从空想变为科学</p>
-                        </div>
-                    </div>
-                    <div class="w-1/2"></div>
-                </div>
-                
-                <!-- 时间点2 -->
-                <div class="relative flex items-center mb-16 reveal">
-                    <div class="timeline-dot" style="top: 20px;"></div>
-                    <div class="w-1/2"></div>
-                    <div class="w-1/2 pl-8">
-                        <div class="quote-card p-6 inline-block">
-                            <span class="text-yellow-400 font-bold text-2xl serif">1871</span>
-                            <h3 class="serif text-xl font-bold text-white mt-2 mb-2">巴黎公社</h3>
-                            <p class="text-white/70 text-sm">无产阶级建立政权的第一次伟大尝试</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 时间点3 -->
-                <div class="relative flex items-center mb-16 reveal">
-                    <div class="timeline-dot" style="top: 20px;"></div>
-                    <div class="w-1/2 pr-8 text-right">
-                        <div class="quote-card p-6 inline-block text-left">
-                            <span class="text-yellow-400 font-bold text-2xl serif">1917</span>
-                            <h3 class="serif text-xl font-bold text-white mt-2 mb-2">十月革命</h3>
-                            <p class="text-white/70 text-sm">列宁领导俄国十月革命胜利，建立世界上第一个社会主义国家</p>
-                        </div>
-                    </div>
-                    <div class="w-1/2"></div>
-                </div>
-                
-                <!-- 时间点4 -->
-                <div class="relative flex items-center mb-16 reveal">
-                    <div class="timeline-dot" style="top: 20px;"></div>
-                    <div class="w-1/2"></div>
-                    <div class="w-1/2 pl-8">
-                        <div class="quote-card p-6 inline-block">
-                            <span class="text-yellow-400 font-bold text-2xl serif">1921</span>
-                            <h3 class="serif text-xl font-bold text-white mt-2 mb-2">中国共产党成立</h3>
-                            <p class="text-white/70 text-sm">中国革命的面貌焕然一新，开启中华民族伟大复兴新征程</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 时间点5 -->
-                <div class="relative flex items-center reveal">
-                    <div class="timeline-dot" style="top: 20px;"></div>
-                    <div class="w-1/2 pr-8 text-right">
-                        <div class="quote-card p-6 inline-block text-left">
-                            <span class="text-yellow-400 font-bold text-2xl serif">1949</span>
-                            <h3 class="serif text-xl font-bold text-white mt-2 mb-2">新中国成立</h3>
-                            <p class="text-white/70 text-sm">中华人民共和国成立，中国人民从此站起来了</p>
-                        </div>
-                    </div>
-                    <div class="w-1/2"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- 首页 -->
+  <header class="min-h-screen flex items-center justify-center relative pt-20 px-6">
+    <div class="star text-4xl" style="top:20%;left:10%">✦</div>
+    <div class="star text-2xl" style="top:28%;right:14%;animation-delay:.7s">✦</div>
+    <div class="star text-3xl" style="bottom:24%;left:18%;animation-delay:1.2s">✦</div>
+    <div class="star text-xl" style="bottom:18%;right:20%;animation-delay:1.8s">✦</div>
 
-    <!-- 崇高理想部分 -->
-    <section id="ideal" class="py-24 px-6 relative overflow-hidden">
-        <!-- 火炬装饰 -->
-        <div class="absolute left-10 top-1/4 hidden md:block">
-            <div class="flame" style="left: 10px;"></div>
-            <div class="w-10 h-20 bg-gradient-to-b from-yellow-600 to-yellow-800 rounded-b-lg relative" style="margin-top: 90px;"></div>
-        </div>
-        <div class="absolute right-10 top-1/4 hidden md:block">
-            <div class="flame" style="left: 10px;"></div>
-            <div class="w-10 h-20 bg-gradient-to-b from-yellow-600 to-yellow-800 rounded-b-lg relative" style="margin-top: 90px;"></div>
-        </div>
-        
-        <div class="max-w-5xl mx-auto text-center relative z-10">
-            <div class="reveal">
-                <h2 class="serif text-4xl md:text-6xl font-black mb-8">
-                    <span class="bg-gradient-to-r from-yellow-400 via-orange-300 to-yellow-400 bg-clip-text text-transparent">
-                        共产主义的崇高理想
-                    </span>
-                </h2>
-                
-                <div class="quote-card p-8 md:p-12 mb-12">
-                    <p class="serif text-xl md:text-2xl leading-relaxed text-white/90 mb-8">
-                        共产主义社会，将是物质财富极大丰富，人民精神境界极大提高，每个人自由而全面发展的社会。
-                    </p>
-                    <div class="grid md:grid-cols-3 gap-6 text-left">
-                        <div class="p-4 rounded-lg bg-gradient-to-br from-red-900/40 to-transparent">
-                            <div class="text-3xl mb-3">🌾</div>
-                            <h4 class="font-bold text-yellow-400 mb-2">物质极大丰富</h4>
-                            <p class="text-sm text-white/70">生产力高度发达，社会产品充分涌流，实行"各尽所能，按需分配"</p>
-                        </div>
-                        <div class="p-4 rounded-lg bg-gradient-to-br from-red-900/40 to-transparent">
-                            <div class="text-3xl mb-3">✨</div>
-                            <h4 class="font-bold text-yellow-400 mb-2">精神境界提高</h4>
-                            <p class="text-sm text-white/70">人们摆脱了私有观念，劳动成为人的第一需要，具有高尚的道德情操</p>
-                        </div>
-                        <div class="p-4 rounded-lg bg-gradient-to-br from-red-900/40 to-transparent">
-                            <div class="text-3xl mb-3">🕊️</div>
-                            <h4 class="font-bold text-yellow-400 mb-2">人的自由全面发展</h4>
-                            <p class="text-sm text-white/70">消灭了阶级和阶级差别，国家消亡，人类从必然王国走向自由王国</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 入党誓词交互 -->
-            <div class="reveal">
-                <button class="revolution-btn mb-8" id="oathBtn" onclick="toggleOath()">
-                    📜 宣读入党誓词
-                </button>
-                
-                <div id="oathContent" class="quote-card p-8 md:p-12 max-w-2xl mx-auto hidden">
-                    <div class="text-yellow-400 text-5xl mb-4 serif">"</div>
-                    <p class="serif text-lg md:text-xl leading-loose text-white/90 mb-6" id="oathText">
-                        我志愿加入中国共产党，拥护党的纲领，遵守党的章程，履行党员义务，执行党的决定，严守党的纪律，保守党的秘密，对党忠诚，积极工作，为共产主义奋斗终身，随时准备为党和人民牺牲一切，永不叛党。
-                    </p>
-                    <div class="flex justify-center gap-2">
-                        <span class="nav-dot active" data-idx="0"></span>
-                        <span class="nav-dot" data-idx="1"></span>
-                        <span class="nav-dot" data-idx="2"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="relative z-10 text-center max-w-4xl">
+      <div class="hero-ring"><span>共产主义</span></div>
 
-    <!-- 国际歌部分 -->
-    <section class="py-20 px-6 bg-gradient-to-r from-red-900/50 via-red-800/30 to-red-900/50">
-        <div class="max-w-4xl mx-auto text-center reveal">
-            <h2 class="serif text-3xl md:text-5xl font-black mb-8 text-yellow-400">国际歌</h2>
-            <div class="quote-card p-8 md:p-12">
-                <div class="space-y-4 text-lg md:text-xl serif leading-loose">
-                    <p class="text-yellow-200 font-bold">起来，饥寒交迫的奴隶！</p>
-                    <p class="text-yellow-200 font-bold">起来，全世界受苦的人！</p>
-                    <p class="text-white/90">满腔的热血已经沸腾，要为真理而斗争！</p>
-                    <p class="text-white/90">旧世界打个落花流水，奴隶们起来，起来！</p>
-                    <p class="text-white/90">不要说我们一无所有，我们要做天下的主人！</p>
-                    <p class="text-yellow-400 font-black text-2xl md:text-3xl mt-8 animate-pulse">这是最后的斗争，团结起来到明天，</p>
-                    <p class="text-yellow-400 font-black text-2xl md:text-3xl">英特纳雄耐尔就一定要实现！</p>
-                </div>
-            </div>
-        </div>
-    </section>
+      <h1 class="serif text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight">
+        <span class="bg-gradient-to-r from-yellow-400 via-orange-200 to-yellow-400 bg-clip-text text-transparent">
+          思想照亮未来
+        </span>
+      </h1>
 
-    <!-- 页脚 -->
-    <footer class="py-12 px-6 border-t border-yellow-500/20">
-        <div class="max-w-5xl mx-auto text-center">
-            <div class="flex justify-center items-center gap-4 mb-6">
-                <svg class="w-12 h-12" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M25 35 L25 25 L35 25 L35 35 L45 35 L45 75 L35 75 L35 45 L25 45 Z" fill="#FFD700"/>
-                    <rect x="30" y="35" width="8" height="45" fill="#FFD700"/>
-                    <path d="M75 25 Q90 40 80 65 Q70 85 50 80 Q35 75 30 60 L40 55 Q45 70 60 68 Q75 65 72 45 Q70 30 60 30 Z" fill="#FFD700"/>
-                    <rect x="70" y="20" width="8" height="50" rx="2" fill="#FFD700" transform="rotate(-15 74 45)"/>
-                </svg>
-            </div>
-            <p class="serif text-xl text-yellow-400 mb-4">为共产主义事业奋斗终身</p>
-            <p class="text-white/40 text-sm">英特纳雄耐尔就一定要实现 ✊</p>
-        </div>
-    </footer>
+      <p class="text-xl md:text-2xl text-yellow-100/80 mb-5 serif font-medium">
+        在历史、劳动与社会变革中理解世界
+      </p>
 
-    <script>
-        // 生成粒子
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.width = Math.random() * 6 + 2 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = Math.random() * 10 + 10 + 's';
-                container.appendChild(particle);
-            }
+      <p class="text-lg md:text-xl text-red-100/70 mb-10 max-w-3xl mx-auto leading-relaxed">
+        阅读经典文本，辨析历史语境，建立批判性思考，探寻个人与社会自由发展的多种可能。
+      </p>
+
+      <button class="primary-btn" onclick="scrollToSection('manifesto')">
+        开始阅读
+      </button>
+    </div>
+
+    <button class="absolute bottom-8 left-1/2 -translate-x-1/2 text-yellow-400 animate-bounce"
+            onclick="scrollToSection('manifesto')" aria-label="向下滚动">
+      ↓
+    </button>
+  </header>
+
+  <!-- 滚动标语 -->
+  <section class="py-4 border-y border-yellow-500/20 bg-red-950/35 overflow-hidden">
+    <div class="marquee">
+      <span class="text-2xl serif font-bold mx-10 text-yellow-400 whitespace-nowrap">批判现实的桎梏</span>
+      <span class="text-2xl serif font-bold mx-10 text-yellow-200 whitespace-nowrap">理解资本与劳动</span>
+      <span class="text-2xl serif font-bold mx-10 text-yellow-400 whitespace-nowrap">关注阶级与社会关系</span>
+      <span class="text-2xl serif font-bold mx-10 text-yellow-200 whitespace-nowrap">追求人的自由全面发展</span>
+      <span class="text-2xl serif font-bold mx-10 text-yellow-400 whitespace-nowrap">批判现实的桎梏</span>
+      <span class="text-2xl serif font-bold mx-10 text-yellow-200 whitespace-nowrap">理解资本与劳动</span>
+      <span class="text-2xl serif font-bold mx-10 text-yellow-400 whitespace-nowrap">关注阶级与社会关系</span>
+      <span class="text-2xl serif font-bold mx-10 text-yellow-200 whitespace-nowrap">追求人的自由全面发展</span>
+    </div>
+  </section>
+
+  <!-- 宣言 -->
+  <section id="manifesto" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <span class="text-yellow-400 tracking-widest text-sm">1848 年 · 欧洲革命浪潮</span>
+        <h2 class="serif text-4xl md:text-6xl font-black my-5">
+          <span class="bg-gradient-to-r from-red-500 via-yellow-400 to-red-500 bg-clip-text text-transparent">
+            共产党宣言
+          </span>
+        </h2>
+        <p class="max-w-3xl mx-auto text-red-100/70 text-lg leading-relaxed">
+          一部以阶级斗争、资本主义与社会变革为核心主题的政治理论文本，
+          将社会主义从抽象设想转向制度与运动的具体分析。
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <article class="glass-card p-8 reveal">
+          <span class="quote-mark">“</span>
+          <h3 class="serif text-xl font-bold text-yellow-400 mb-4">阶级斗争</h3>
+          <blockquote class="serif text-xl leading-relaxed pl-4 border-l-4 border-yellow-500">
+            至今一切社会的历史都是阶级斗争的历史。
+          </blockquote>
+          <p class="mt-5 text-sm text-red-100/60">从社会结构和利益冲突理解历史发展。</p>
+        </article>
+
+        <article class="glass-card p-8 reveal" style="transition-delay:.08s">
+          <span class="quote-mark">“</span>
+          <h3 class="serif text-xl font-bold text-yellow-400 mb-4">资产阶级的力量</h3>
+          <blockquote class="serif text-xl leading-relaxed pl-4 border-l-4 border-yellow-500">
+            资产阶级创造了前所未有的社会生产力。
+          </blockquote>
+          <p class="mt-5 text-sm text-red-100/60">文本同时强调其创造力与内部矛盾。</p>
+        </article>
+
+        <article class="glass-card p-8 reveal" style="transition-delay:.16s">
+          <span class="quote-mark">“</span>
+          <h3 class="serif text-xl font-bold text-yellow-400 mb-4">生产关系</h3>
+          <blockquote class="serif text-xl leading-relaxed pl-4 border-l-4 border-yellow-500">
+            社会制度建立在生产方式与社会关系之上。
+          </blockquote>
+          <p class="mt-5 text-sm text-red-100/60">经济关系、政治制度与文化具有相互影响。</p>
+        </article>
+
+        <article class="glass-card p-8 reveal" style="transition-delay:.24s">
+          <span class="quote-mark">“</span>
+          <h3 class="serif text-xl font-bold text-yellow-400 mb-4">自由联合体</h3>
+          <blockquote class="serif text-xl leading-relaxed pl-4 border-l-4 border-yellow-500">
+            每个人的自由发展是一切人的自由发展的条件。
+          </blockquote>
+          <p class="mt-5 text-sm text-red-100/60">个人自由与共同福祉密切相连。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 数据与概念 -->
+  <section class="py-20 px-6 bg-red-950/25">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-3 gap-8 text-center">
+        <div class="reveal">
+          <div class="stat-number text-6xl md:text-7xl font-black">1848</div>
+          <p class="mt-3 text-yellow-100/70">宣言发表年份</p>
+        </div>
+
+        <div class="reveal" style="transition-delay:.1s">
+          <div class="stat-number text-6xl md:text-7xl font-black">1867</div>
+          <p class="mt-3 text-yellow-100/70">《资本论》第一卷出版</p>
+        </div>
+
+        <div class="reveal" style="transition-delay:.2s">
+          <div class="stat-number text-6xl md:text-7xl font-black">∞</div>
+          <p class="mt-3 text-yellow-100/70">关于自由与平等的持续讨论</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 资本论 -->
+  <section id="capital" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <span class="text-yellow-400 tracking-widest text-sm">1867 年 · 政治经济学批判</span>
+        <h2 class="serif text-4xl md:text-6xl font-black my-5">
+          <span class="bg-gradient-to-r from-yellow-500 via-orange-300 to-yellow-500 bg-clip-text text-transparent">
+            资本论
+          </span>
+        </h2>
+        <p class="max-w-3xl mx-auto text-red-100/70 text-lg">
+          深入研究商品、劳动、价值、剩余价值与资本积累，揭示现代经济运行背后的社会关系。
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <article class="glass-card p-7 reveal">
+          <button class="conceptBtn w-full text-left" aria-expanded="false">
+            <div class="text-5xl mb-4">商品</div>
+            <h3 class="text-yellow-400 text-xl font-bold mb-2">商品与价值</h3>
+            <p class="text-white/65">商品同时具有使用价值与交换价值。</p>
+          </button>
+          <div class="detail-panel mt-4 pt-4 border-t border-yellow-500/20">
+            商品是满足需要的劳动产品，也是市场交换的对象。
+          </div>
+        </article>
+
+        <article class="glass-card p-7 reveal" style="transition-delay:.1s">
+          <button class="conceptBtn w-full text-left" aria-expanded="false">
+            <div class="text-5xl mb-4">劳动</div>
+            <h3 class="text-yellow-400 text-xl font-bold mb-2">劳动与剩余价值</h3>
+            <p class="text-white/65">分析劳动创造价值及其分配关系。</p>
+          </button>
+          <div class="detail-panel mt-4 pt-4 border-t border-yellow-500/20">
+            剩余价值理论认为劳动创造的价值高于劳动力再生产所需的价值。
+          </div>
+        </article>
+
+        <article class="glass-card p-7 reveal" style="transition-delay:.2s">
+          <button class="conceptBtn w-full text-left" aria-expanded="false">
+            <div class="text-5xl mb-4">资本</div>
+            <h3 class="text-yellow-400 text-xl font-bold mb-2">资本积累</h3>
+            <p class="text-white/65">资本通过生产过程不断扩张自身规模。</p>
+          </button>
+          <div class="detail-panel mt-4 pt-4 border-t border-yellow-500/20">
+            资本积累既推动生产力发展，也可能加剧社会贫富分化。
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 时间线 -->
+  <section id="timeline" class="py-24 px-6 bg-gradient-to-b from-transparent to-red-950/25">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <h2 class="serif text-4xl md:text-6xl font-black mb-5">
+          <span class="bg-gradient-to-r from-red-500 via-yellow-400 to-red-500 bg-clip-text text-transparent">
+            历史时间线
+          </span>
+        </h2>
+        <p class="text-red-100/70">关键理论与社会运动的简明脉络</p>
+      </div>
+
+      <div class="relative">
+        <div class="timeline-line"></div>
+
+        <div class="timeline-item relative flex items-center mb-14 reveal">
+          <div class="timeline-dot"></div>
+          <div class="w-1/2 pr-8 text-right ml-0">
+            <article class="glass-card p-6 inline-block text-left">
+              <strong class="text-yellow-400 text-2xl serif">1848</strong>
+              <h3 class="serif text-xl font-bold mt-2 mb-2">共产党宣言发表</h3>
+              <p class="text-white/65 text-sm">阶级斗争与无产阶级政治纲领进入现代思想舞台。</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="timeline-item relative flex items-center mb-14 reveal">
+          <div class="timeline-dot"></div>
+          <div class="w-1/2"></div>
+          <div class="w-1/2 pl-8">
+            <article class="glass-card p-6 inline-block">
+              <strong class="text-yellow-400 text-2xl serif">1867</strong>
+              <h3 class="serif text-xl font-bold mt-2 mb-2">《资本论》第一卷出版</h3>
+              <p class="text-white/65 text-sm">政治经济学批判形成系统性理论。</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="timeline-item relative flex items-center mb-14 reveal">
+          <div class="timeline-dot"></div>
+          <div class="w-1/2 pr-8 text-right">
+            <article class="glass-card p-6 inline-block text-left">
+              <strong class="text-yellow-400 text-2xl serif">1871</strong>
+              <h3 class="serif text-xl font-bold mt-2 mb-2">巴黎公社</h3>
+              <p class="text-white/65 text-sm">工人群众建立自治政权的短暂历史实践。</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="timeline-item relative flex items-center reveal">
+          <div class="timeline-dot"></div>
+          <div class="w-1/2"></div>
+          <div class="w-1/2 pl-8">
+            <article class="glass-card p-6 inline-block">
+              <strong class="text-yellow-400 text-2xl serif">当代</strong>
+              <h3 class="serif text-xl font-bold mt-2 mb-2">全球批判思想的发展</h3>
+              <p class="text-white/65 text-sm">生态、女权、去殖民化与数字劳动成为重要议题。</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心理念 -->
+  <section id="ideas" class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-14 reveal">
+        <h2 class="serif text-4xl md:text-6xl font-black mb-5">
+          <span class="bg-gradient-to-r from-yellow-400 via-orange-300 to-yellow-400 bg-clip-text text-transparent">
+            核心理念
+          </span>
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <article class="glass-card p-6 reveal text-center">
+          <div class="text-5xl mb-4">🌍</div>
+          <h3 class="text-yellow-400 text-xl font-bold mb-3">历史视角</h3>
+          <p class="text-white/65">理解社会制度的形成、发展与变化。</p>
+        </article>
+
+        <article class="glass-card p-6 reveal text-center" style="transition-delay:.1s">
+          <div class="text-5xl mb-4">⚖️</div>
+          <h3 class="text-yellow-400 text-xl font-bold mb-3">社会公平</h3>
+          <p class="text-white/65">关注财富、权力与机会的分配方式。</p>
+        </article>
+
+        <article class="glass-card p-6 reveal text-center" style="transition-delay:.2s">
+          <div class="text-5xl mb-4">🤝</div>
+          <h3 class="text-yellow-400 text-xl font-bold mb-3">公共生活</h3>
+          <p class="text-white/65">强调个人自由与社会共同福祉的联系。</p>
+        </article>
+
+        <article class="glass-card p-6 reveal text-center" style="transition-delay:.3s">
+          <div class="text-5xl mb-4">🌱</div>
+          <h3 class="text-yellow-400 text-xl font-bold mb-3">生态未来</h3>
+          <p class="text-white/65">将经济活动置于自然与代际责任之中。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="py-12 px-6 border-t border-yellow-500/20 text-center">
+    <p class="serif text-xl text-yellow-400 mb-3">以批判的眼光认识世界，以理性的行动改善世界</p>
+    <p class="text-white/40 text-sm">思想文献馆 · 教育与研究页面</p>
+  </footer>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function revealOnScroll() {
+      document.querySelectorAll(".reveal").forEach(element => {
+        if (element.getBoundingClientRect().top < window.innerHeight - 150) {
+          element.classList.add("active");
         }
-        
-        // 滚动显示动画
-        function revealOnScroll() {
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(element => {
-                const windowHeight = window.innerHeight;
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    element.classList.add('active');
-                }
-            });
-        }
-        
-        // 平滑滚动
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // 入党誓词切换
-        let oathVisible = false;
-        function toggleOath() {
-            const content = document.getElementById('oathContent');
-            const btn = document.getElementById('oathBtn');
-            oathVisible = !oathVisible;
-            
-            if (oathVisible) {
-                content.classList.remove('hidden');
-                btn.textContent = '✊ 为共产主义奋斗';
-                gsap.from(content, {
-                    opacity: 0,
-                    y: 30,
-                    duration: 0.6,
-                    ease: 'power2.out'
-                });
-            } else {
-                content.classList.add('hidden');
-                btn.textContent = '📜 宣读入党誓词';
-            }
-        }
-        
-        // 点击口号效果
-        function playInternationale() {
-            // 创建欢呼效果
-            for (let i = 0; i < 20; i++) {
-                createStarBurst(event.clientX, event.clientY);
-            }
-        }
-        
-        // 创建星星爆发效果
-        function createStarBurst(x, y) {
-            const star = document.createElement('div');
-            star.textContent = '★';
-            star.style.position = 'fixed';
-            star.style.left = x + 'px';
-            star.style.top = y + 'px';
-            star.style.color = '#FFD700';
-            star.style.fontSize = Math.random() * 20 + 10 + 'px';
-            star.style.pointerEvents = 'none';
-            star.style.zIndex = '9999';
-            document.body.appendChild(star);
-            
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = Math.random() * 200 + 100;
-            const vx = Math.cos(angle) * velocity;
-            const vy = Math.sin(angle) * velocity;
-            
-            gsap.to(star, {
-                x: vx,
-                y: vy,
-                opacity: 0,
-                rotation: 720,
-                duration: 1.5,
-                ease: 'power2.out',
-                onComplete: () => star.remove()
-            });
-        }
-        
-        // 导航点交互
-        const oathTexts = [
-            "我志愿加入中国共产党，拥护党的纲领，遵守党的章程，履行党员义务，执行党的决定，严守党的纪律，保守党的秘密，对党忠诚，积极工作，为共产主义奋斗终身，随时准备为党和人民牺牲一切，永不叛党。",
-            "中国共产党是中国工人阶级的先锋队，同时是中国人民和中华民族的先锋队，是中国特色社会主义事业的领导核心，代表中国先进生产力的发展要求，代表中国先进文化的前进方向，代表中国最广大人民的根本利益。",
-            "中国共产党以马克思列宁主义、毛泽东思想、邓小平理论、\"三个代表\"重要思想、科学发展观、习近平新时代中国特色社会主义思想作为自己的行动指南。"
-        ];
-        
-        document.querySelectorAll('.nav-dot').forEach((dot, idx) => {
-            dot.addEventListener('click', () => {
-                document.querySelectorAll('.nav-dot').forEach(d => d.classList.remove('active'));
-                dot.classList.add('active');
-                
-                const textEl = document.getElementById('oathText');
-                gsap.to(textEl, {
-                    opacity: 0,
-                    duration: 0.3,
-                    onComplete: () => {
-                        textEl.textContent = oathTexts[idx];
-                        gsap.to(textEl, { opacity: 1, duration: 0.3 });
-                    }
-                });
-            });
+      });
+    }
+
+    function createParticles() {
+      const canvas = document.getElementById("particles");
+
+      if (!canvas.getContext) return;
+
+      const ctx = canvas.getContext("2d");
+      let width = innerWidth;
+      let height = innerHeight;
+      let dots = [];
+
+      function resize() {
+        const ratio = Math.min(devicePixelRatio || 1, 2);
+        width = innerWidth;
+        height = innerHeight;
+        canvas.width = width * ratio;
+        canvas.height = height * ratio;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+        dots = Array.from({ length: Math.min(65, Math.floor(width / 18)) }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: Math.random() * 2 + .5,
+          vx: (Math.random() - .5) * .25,
+          vy: (Math.random() - .5) * .25
+        }));
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+
+        dots.forEach(dot => {
+          dot.x += dot.vx;
+          dot.y += dot.vy;
+
+          if (dot.x < 0 || dot.x > width) dot.vx *= -1;
+          if (dot.y < 0 || dot.y > height) dot.vy *= -1;
+
+          ctx.beginPath();
+          ctx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,215,0,.42)";
+          ctx.fill();
         });
-        
-        // 鼠标跟随光效
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            document.body.style.background = `
-                linear-gradient(
-                    ${135 + x * 20}deg, 
-                    #1a0a0a 0%, 
-                    #2d0a0a ${30 + x * 20}%, 
-                    #1a0505 100%
-                )
-            `;
-        });
-        
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            window.addEventListener('scroll', revealOnScroll);
-            revealOnScroll();
-            
-            // GSAP初始动画
-            gsap.from('h1', {
-                opacity: 0,
-                y: 50,
-                duration: 1,
-                delay: 0.3,
-                ease: 'power3.out'
-            });
-            
-            gsap.from('.party-emblem', {
-                scale: 0,
-                rotation: -180,
-                duration: 1.5,
-                delay: 0.1,
-                ease: 'back.out(1.7)'
-            });
-        });
-        
-        // 数字计数动画效果（为未来扩展预留）
-        function animateCounter(element, target) {
-            let current = 0;
-            const increment = target / 60;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
-                }
-                element.textContent = Math.floor(current);
-            }, 16);
-        }
-    </script>
+
+        requestAnimationFrame(draw);
+      }
+
+      resize();
+      draw();
+      addEventListener("resize", resize);
+    }
+
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+
+    mobileMenu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden");
+      });
+    });
+
+    document.querySelectorAll(".conceptBtn").forEach(button => {
+      button.addEventListener("click", () => {
+        const panel = button.nextElementSibling;
+        const open = panel.classList.toggle("open");
+
+        button.setAttribute("aria-expanded", String(open));
+      });
+    });
+
+    addEventListener("scroll", revealOnScroll);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      createParticles();
+      revealOnScroll();
+
+      gsap.from("header h1", {
+        opacity: 0,
+        y: 60,
+        duration: 1,
+        ease: "power3.out"
+      });
+
+      gsap.from(".hero-ring", {
+        scale: 0,
+        rotation: 180,
+        duration: 1.2,
+        ease: "back.out(1.7)"
+      });
+    });
+  </script>
 </body>
 </html>
