@@ -52,19 +52,6 @@
       pointer-events: none;
     }
 
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255,215,0,.55);
-      animation: float 16s linear infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(105vh); opacity: 0; }
-      15%,85% { opacity: 1; }
-      100% { transform: translateY(-15vh) rotate(720deg); opacity: 0; }
-    }
-
     .glass-card {
       position: relative;
       overflow: hidden;
@@ -144,6 +131,7 @@
 
     .primary-btn {
       position: relative;
+      display: inline-block;
       overflow: hidden;
       padding: 15px 34px;
       border: 2px solid var(--gold);
@@ -153,6 +141,8 @@
       cursor: pointer;
       font-weight: 800;
       letter-spacing: 2px;
+      text-decoration: none;
+      font-family: inherit;
       transition: .3s;
     }
 
@@ -165,6 +155,54 @@
 
     .primary-btn:active {
       transform: scale(.96);
+    }
+
+    .footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 310px;
+      justify-content: center;
+      margin: 24px 0 18px;
+      padding: 16px 30px;
+      border: 1px solid rgba(255,215,0,.68);
+      border-radius: 999px;
+      color: #ffe77a;
+      background:
+        linear-gradient(90deg, rgba(200,16,46,.95), rgba(117,0,22,.92));
+      box-shadow:
+        0 10px 40px rgba(117,0,22,.35),
+        inset 0 1px 0 rgba(255,255,255,.15);
+      font-family: "Noto Serif SC", serif;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-decoration: none;
+      transition: .35s ease;
+    }
+
+    .footer-link::before {
+      content: "✦";
+      font-size: 18px;
+      color: var(--gold);
+      transition: .35s ease;
+    }
+
+    .footer-link:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold);
+      color: var(--deep-red);
+      background: linear-gradient(135deg, #ffe66d, #ffd700);
+      box-shadow: 0 16px 45px rgba(255,215,0,.22);
+    }
+
+    .footer-link:hover::before {
+      transform: rotate(180deg) scale(1.15);
+      color: var(--deep-red);
+    }
+
+    .footer-link:focus-visible {
+      outline: 3px solid rgba(255,215,0,.8);
+      outline-offset: 5px;
     }
 
     .timeline-line {
@@ -282,6 +320,13 @@
       .hero-ring span {
         font-size: 66px;
       }
+
+      .footer-link {
+        min-width: 0;
+        width: 100%;
+        max-width: 330px;
+        letter-spacing: 1px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -298,7 +343,6 @@
 <body>
   <canvas id="particles" aria-hidden="true"></canvas>
 
-  <!-- 顶部导航 -->
   <nav class="fixed top-0 left-0 right-0 z-50 border-b border-yellow-500/10 bg-black/65 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
       <a href="#" class="serif text-xl font-black text-yellow-400">思想文献馆</a>
@@ -321,7 +365,6 @@
     </div>
   </nav>
 
-  <!-- 首页 -->
   <header class="min-h-screen flex items-center justify-center relative pt-20 px-6">
     <div class="star text-4xl" style="top:20%;left:10%">✦</div>
     <div class="star text-2xl" style="top:28%;right:14%;animation-delay:.7s">✦</div>
@@ -356,7 +399,6 @@
     </button>
   </header>
 
-  <!-- 滚动标语 -->
   <section class="py-4 border-y border-yellow-500/20 bg-red-950/35 overflow-hidden">
     <div class="marquee">
       <span class="text-2xl serif font-bold mx-10 text-yellow-400 whitespace-nowrap">批判现实的桎梏</span>
@@ -370,7 +412,6 @@
     </div>
   </section>
 
-  <!-- 宣言 -->
   <section id="manifesto" class="py-24 px-6">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-16 reveal">
@@ -426,7 +467,6 @@
     </div>
   </section>
 
-  <!-- 数据与概念 -->
   <section class="py-20 px-6 bg-red-950/25">
     <div class="max-w-6xl mx-auto">
       <div class="grid md:grid-cols-3 gap-8 text-center">
@@ -448,7 +488,6 @@
     </div>
   </section>
 
-  <!-- 资本论 -->
   <section id="capital" class="py-24 px-6">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-16 reveal">
@@ -500,7 +539,6 @@
     </div>
   </section>
 
-  <!-- 时间线 -->
   <section id="timeline" class="py-24 px-6 bg-gradient-to-b from-transparent to-red-950/25">
     <div class="max-w-5xl mx-auto">
       <div class="text-center mb-16 reveal">
@@ -564,7 +602,6 @@
     </div>
   </section>
 
-  <!-- 核心理念 -->
   <section id="ideas" class="py-24 px-6">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-14 reveal">
@@ -603,9 +640,17 @@
     </div>
   </section>
 
-  <!-- 页脚 -->
   <footer class="py-12 px-6 border-t border-yellow-500/20 text-center">
     <p class="serif text-xl text-yellow-400 mb-3">以批判的眼光认识世界，以理性的行动改善世界</p>
+
+    <a href="https://soolinejiang.github.io/cp"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="footer-link"
+       aria-label="探索自由与共同发展">
+      探索自由与共同发展
+    </a>
+
     <p class="text-white/40 text-sm">思想文献馆 · 教育与研究页面</p>
   </footer>
 
